@@ -1,0 +1,96 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply font-sans text-gray-800 antialiased;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-heading font-bold;
+  }
+}
+
+/* Animation utilities */
+[data-aos="fade-up"] {
+  transform: translateY(20px);
+  opacity: 0;
+  transition: transform 0.6s ease-out, opacity 0.6s ease-out;
+}
+
+.aos-animate[data-aos="fade-up"] {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+[data-aos="fade-right"] {
+  transform: translateX(-20px);
+  opacity: 0;
+  transition: transform 0.6s ease-out, opacity 0.6s ease-out;
+}
+
+.aos-animate[data-aos="fade-right"] {
+  transform: translateX(0);
+  opacity: 1;
+}
+
+[data-aos="fade-left"] {
+  transform: translateX(20px);
+  opacity: 0;
+  transition: transform 0.6s ease-out, opacity 0.6s ease-out;
+}
+
+.aos-animate[data-aos="fade-left"] {
+  transform: translateX(0);
+  opacity: 1;
+}
+
+/* Simple animation on page load */
+.fade-in {
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.aspect-w-4 {
+  position: relative;
+  padding-bottom: calc(3 / 4 * 100%);
+}
+
+.aspect-w-4 > * {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+}
+
+/* Add this below your existing CSS */
+main {
+  min-height: calc(100vh - [navbar-height] - [footer-height]);
+  /* Example: min-height: calc(100vh - 80px - 120px); */
+}
+
+/* Ensure all sections have proper spacing */
+section {
+  @apply py-16;
+}
+
+/* Fix for potential image overflow issues */
+img {
+  @apply max-w-full h-auto;
+}
