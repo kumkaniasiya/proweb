@@ -6,24 +6,24 @@ export default defineConfig({
   plugins: [
     react(),
     {
-      name: 'rewrite-script-path',
+      name: 'html-transform',
       transformIndexHtml(html) {
-        return process.env.NODE_ENV === 'production'
-          ? html.replace(
-              '<script type="module" src="/src/main.tsx"></script>',
-              '<script type="module" src="/assets/index.js"></script>'
-            )
-          : html;
+        return html.replace(
+          '<script type="module" src="/src/main.tsx"></script>',
+          '<script type="module" src="/assets/main.js"></script>'
+        );
       }
     }
   ],
   build: {
+    outDir: 'dist',
     rollupOptions: {
       input: {
         main: resolve(__dirname, 'index.html')
       },
       output: {
-        entryFileNames: 'assets/[name].js'
+        entryFileNames: 'assets/[name].[hash].js',
+        assetFileNames: 'assets/[name].[hash][extname]'
       }
     }
   }
