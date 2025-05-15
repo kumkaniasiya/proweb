@@ -1,20 +1,30 @@
-import { defineConfig } from "vite";
-import react from "@vitejs/plugin-react";
+import { defineConfig } from 'vite';
+import react from '@vitejs/plugin-react';
+import { resolve } from 'path';
 
 export default defineConfig({
-  plugins: [react()],
-  base: "/", // Ensures paths resolve correctly on Render
+  plugins: [
+    react(),
+    {
+      name: 'rewrite-script-path',
+      transformIndexHtml(html) {
+        return process.env.NODE_ENV === 'production'
+          ? html.replace(
+              '<script type="module" src="/src/main.tsx"></script>',
+              '<script type="module" src="/assets/index.js"></script>'
+            )
+          : html;
+      }
+    }
+  ],
   build: {
-    outDir: "dist", // Explicit output directory
-    emptyOutDir: true, // Clears old files on build
-    sourcemap: false, // Disable for production (smaller files)
-    minify: "terser", // Reduces bundle size
-    chunkSizeWarningLimit: 1000, // Avoids warnings for large chunks
-  },
-  optimizeDeps: {
-    exclude: ["lucide-react"], // Keep your existing exclusion
-  },
-  server: {
-    port: 3000, // Default for local dev (optional)
-  },
+    rollupOptions: {
+      input: {
+        main: resolve(__dirname, 'index.html')
+      },
+      output: {
+        entryFileNames: 'assets/[name].js'
+      }
+    }
+  }
 });
