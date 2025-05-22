@@ -1,9 +1,19 @@
 services:
   - type: web
     name: boledi
+    env: node
     buildCommand: npm install && npm run build
     staticPublishPath: "./dist"
+    # Add this for client-side routing:
+    routes:
+      - type: rewrite
+        source: "/*"
+        destination: "/index.html"
+    # Optional: Better caching headers
     headers:
+      - path: "/*"
+        name: "Cache-Control"
+        value: "public, max-age=31536000, immutable"
       - path: "/*.js"
         name: "Content-Type"
         value: "text/javascript"
